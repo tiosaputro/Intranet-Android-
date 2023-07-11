@@ -6,9 +6,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, BackHandler, SafeAreaView, PermissionsAndroid } from 'react-native';
 import { WebView } from 'react-native-webview';
-// import RNSimData from "react-native-sim-data";
 
+PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE)
+PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -68,7 +69,9 @@ export default function App() {
   window.ReactNativeWebView.postMessage(Math.max(document.body.offsetHeight, document.body.scrollHeight));
   `;
   PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE)
-  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_NUMBERS)
+PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
+PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
+
   const WebViewPage = ({navigation}) => {
 
     const WEBVIEW_REF = useRef(null);
