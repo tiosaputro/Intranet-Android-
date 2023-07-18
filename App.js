@@ -4,11 +4,10 @@ import * as Notifications from 'expo-notifications';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, BackHandler, SafeAreaView, PermissionsAndroid } from 'react-native';
+import { StyleSheet, BackHandler, SafeAreaView, PermissionsAndroid, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
-PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE)
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
 
 Notifications.setNotificationHandler({
@@ -18,6 +17,36 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+  } else {
+    // alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+      sound: 'default',
+    });
+  }
+  return token;
+}
 
 export async function allowsNotificationsAsync() {
   const settings = await Notifications.getPermissionsAsync();
@@ -44,7 +73,7 @@ export async function requestPermissionsAsync() {
 const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK';
 
 TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, ({ data, error, executionInfo }) => {
-  // console.log('Received a notification in the background!');
+  console.log('Received a notification in the background!');
   // Do something with the notification data
 });
 
@@ -68,9 +97,10 @@ export default function App() {
   document.querySelector('.dt-button').style.display = 'none';
   window.ReactNativeWebView.postMessage(Math.max(document.body.offsetHeight, document.body.scrollHeight));
   `;
-  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE)
-PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
-PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
+
+
+  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
+  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
 
   const WebViewPage = ({navigation}) => {
 
@@ -107,17 +137,18 @@ PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
         // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed) app is closed
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
           const onInteraction = response.notification.request.content.data.event;
+          console.log(response);
           setCurrentUrl(onInteraction);
         });
 
-        Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
+        // Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
         BackHandler.addEventListener('hardwareBackPress', backAction);
 
         return () => {
           BackHandler.removeEventListener('hardwareBackPress', backAction);
           Notifications.removeNotificationSubscription(notificationListener.current);
           Notifications.removeNotificationSubscription(responseListener.current);
-          Notifications.unregisterTaskAsync(BACKGROUND_NOTIFICATION_TASK)
+          // Notifications.unregisterTaskAsync(BACKGROUND_NOTIFICATION_TASK)
         };
       },[canGoBack, lastNotificationResponse]); //end use effect
 
@@ -194,32 +225,3 @@ const styles = StyleSheet.create({
    }
 });
 
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Device.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    // if (finalStatus !== 'granted') {
-    //   alert('Failed to get push token for push notification!');
-    //   return;
-    // }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-      sound: 'default',
-    });
-  }
-  return token;
-}

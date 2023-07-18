@@ -39,9 +39,9 @@
     },
     "android": {
       "permissions": [
-        "CAMERA","POST_NOTIFICATIONS"
+        "CAMERA","POST_NOTIFICATIONS","NOTIFICATIONS"
       ],
-      "blockedPermissions": ["READ_CONTACTS","RECORD_AUDIO"],
+      "blockedPermissions": ["android.permission.READ_CONTACTS","android.permission.RECORD_AUDIO"],
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -65,6 +65,12 @@
           "mode": "production",
           "androidMode": "default",
           "iosDisplayInForeground": true
+        }
+      ],
+      [
+        "expo-updates",
+        {
+          "username": "account-username"
         }
       ],
       [

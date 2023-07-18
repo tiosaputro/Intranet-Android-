@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "262376932930",
-    "project_id": "emp-intranet",
-    "storage_bucket": "emp-intranet.appspot.com"
+    "project_number": "840343239563",
+    "project_id": "emp-siap-e2d97",
+    "storage_bucket": "emp-siap-e2d97.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:262376932930:android:5eea2fd85e4f5ee58dcfdb",
+        "mobilesdk_app_id": "1:840343239563:android:6d7b515e59eede31294d8e",
         "android_client_info": {
           "package_name": "com.empsiap"
         }
       },
       "oauth_client": [
         {
-          "client_id": "262376932930-8nk8g7op0k0h2n74c64q7nftbmi6di1i.apps.googleusercontent.com",
+          "client_id": "840343239563-2leqbev22htklptdkluip8mnkema797m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.empsiap",
+            "certificate_hash": "c257aadd78f236ff67773c20147aef1d34950a6c"
+          }
+        },
+        {
+          "client_id": "840343239563-g7dudu1oau0rp4s2t6scir3r3fk95q84.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC9A1EiPEVmwkQ1CoknVBdYMazlRHBEo9c"
+          "current_key": "AIzaSyBCA3BF5jea7SUjJpvJ-_-vTaKOlnTpRdw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "262376932930-8nk8g7op0k0h2n74c64q7nftbmi6di1i.apps.googleusercontent.com",
+              "client_id": "840343239563-g7dudu1oau0rp4s2t6scir3r3fk95q84.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
