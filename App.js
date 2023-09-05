@@ -7,6 +7,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, BackHandler, SafeAreaView, PermissionsAndroid, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 
+
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
 PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
 
@@ -97,7 +98,6 @@ export default function App() {
   document.querySelector('.dt-button').style.display = 'none';
   window.ReactNativeWebView.postMessage(Math.max(document.body.offsetHeight, document.body.scrollHeight));
   `;
-
 
   PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
   PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)

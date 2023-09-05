@@ -4,7 +4,7 @@
     "jsEngine": "hermes",
     "slug": "emp-siap",
     "runtimeVersion": "1.0.0",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "icon": "./assets/icon.png",
     "description": "Intranet App PT.Energi Mega Persada",
     "splash": {
@@ -41,14 +41,14 @@
       "permissions": [
         "CAMERA","POST_NOTIFICATIONS","NOTIFICATIONS"
       ],
-      "blockedPermissions": ["android.permission.READ_CONTACTS","android.permission.RECORD_AUDIO"],
+      "blockedPermissions": ["READ_CONTACTS","RECORD_AUDIO"],
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#212427"
       },
       "package": "com.empsiap",
-      "versionCode": 4
+      "versionCode": 6
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -87,7 +87,19 @@
           "cameraPermission": "Allow EMP SIAP to access your camera."
         }
       ],
-      "expo-build-properties"
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "buildToolsVersion": "33.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "16.2"
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {
